@@ -1,0 +1,152 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    color: #343a40;
+    line-height: 1;
+    background: linear-gradient(to left, #74c0fc, #bcdef7,#d6e9f6 ); 
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.main-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/*
+-----------COLOR PALETTE---------------
+#fafad2 
+#1c7ed6 Blue 7
+#339af0 Blue 5
+#4dabf7 Blue 4
+#74c0fc Blue 3 (Background Right)
+#a5d8ff Blue 2
+#d0ebff Blue 1 
+#d4e7f5 Blue 0.5 (Background Left)
+#e7f5ff Blue 0
+#eff4f7 Blue Grey (NavBar and Login Form)
+---------------------------------------
+ */
+
+#welcome-message{
+    margin: 80px;
+}
+.actions-container{
+    width: 80vw;
+    height: auto;
+    margin: 10px;
+    padding: 10px;
+
+    display: flex;
+    justify-content: space-evenly;
+    background-color: #eff4f7;
+    border-radius: 1px;
+    padding: 10px;
+    margin: 15px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(137, 134, 134, 0.5);
+    
+}
+#inequality{
+    padding: 5px;
+    border: none;
+    background: #eaedf6;
+    text-align: center;
+}
+
+#inequality:focus{
+    outline-color: #0d6efd;
+}
+.filter-form-title{
+    align-self: center;
+}
+.filter-inputs{
+    border: none;
+    border-bottom: 1px solid #0d6efd;
+    width: 115px;
+    background: transparent;
+    padding: 5px;
+}
+.filter-inputs:focus{
+    outline: none
+}
+
+
+/*----------------------------------------------------------------- TABLE STYLING--------------------------------------------------*/
+table {
+    width: 80vw;
+    margin-top: 50px;
+    font-size: 18px;
+    border-collapse: collapse;
+    box-shadow: 0 5px 20px rgba(137, 134, 134, 0.5);
+}
+
+th,td {
+    /* border: 1px solid #343a40; */
+    padding: 16px 24px;
+    text-align: left;
+}
+
+thead tr {
+    background-color: #339af0; 
+    color: #fff;
+}
+
+thead th {
+    width: 25%;
+}
+
+#sorts:hover{
+    cursor: pointer;
+}
+tbody tr:nth-child(odd) {
+    background-color: #f8f9fa;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #e9ecef;
+}
+
+/* ----------------------------------------------------- ORDER DETAILS STYLING ----------------------------------------------------- */
+
+#order-detail-container{
+    width: 80vw;
+    background-color: #eff4f7;
+    padding: 40px;
+    margin: 50px;
+    box-shadow: 0 5px 20px rgba(137, 134, 134, 0.5);
+}
+.order-detail-header{
+    display: flex;
+    justify-content: space-between;
+    color: #2c82cc;
+    color: #339af0;
+    font-weight: bold;
+}
+.product-list-container{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 20px;
+    /* overflow-y: scroll; */
+}
+
+.product-section-header{
+    margin: 12px 0px 15px 0px; /* Margin on top and bottom only */
+}
+
+.product-detail{
+    margin: 10px;
+}
+.product-details-container {
+    background-color: #e9ecef;
+    border-radius: 7px;
+    padding: 5px;
+}

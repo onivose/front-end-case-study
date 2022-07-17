@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./dashboard.css">
+    <link rel="stylesheet" href="../globals/globals.css">
+
+</head>
+<body>
+    <nav class="navbar navbar-light" style="background-color: #eff4f7;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Order Management Portal</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" onclick="logout()" id="logoutbtn">Log Out</a>
+                        </li>
+                    </ul>
+                </div>
+        </div>
+    </nav>
+    
+    <div class="main-container">
+        <div>
+            <H1 id="welcome-message">Welcome First Name Last Name! </H1>
+        </div>
+
+        <div class="actions-container">
+            <button class="btn btn-sm btn-primary" onclick="goToNewOrder()">Create New Order</button>
+            
+            
+            <span class="filter-form-title">Filter By Ammount:</span>
+            <form class="filters" id="statusPick" onsubmit="filterByAmount(event)">
+                <select id="inequality">
+                    <option value="0">Less Than</option>
+                    <option value="1">Greater Than</option>
+                </select>
+                <input type="number" id="ammountFilterInput" class="filter-inputs" placeholder="Ammount" required > 
+                <button class="btn btn-sm btn-outline-primary" type="submit" id="statusFilterBtn" name="statusFilterForm" >Filter</button>
+                <button class="btn btn-sm btn-outline-danger" onclick="getAllforAll()" type="reset">Cancel</button>
+            </form>
+            
+            
+            <span class="filter-form-title">Filter By Customer Id:</span>
+            <form class="filters" id="typePick" onsubmit="filterByType(event)">
+                <input type="number" id="typeFilterInput" class="filter-inputs"  placeholder="Customer ID" required> 
+                <button class="btn btn-sm btn-outline-primary" type="submit" id="typeFilterBtn" name="typeFilterForm" >Filter</button>
+                <button class="btn btn-sm btn-outline-danger" onclick="getAllforAll()" type="reset">Cancel</button>
+            </form>
+
+        </div>
+
+        <table id="orders-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Date Submitted</th>
+                    <th id="sorts" onclick="sortTable()">Ammount</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <th>25</th>
+                    <td>onivose</td>
+                    <td>Sunday July 13</td>
+                    <td>$220</td>
+                    <td><button id="view-btn-25" class="btn btn-outline-primary btn-sm" onclick=viewOrderDetails(event)>View</button></td>
+                </tr>
+                <tr>
+                    <th>26</th>
+                    <td>user1</td>
+                    <td>Sunday July 13</td>
+                    <td>$90</td>
+                    <td><button id="view-btn-26" class="btn btn-outline-primary btn-sm" onclick=viewOrderDetails(event)>View</button></td>
+                </tr>
+                <tr>
+                    <th>27</th>
+                    <td>sjobs</td>
+                    <td>Sunday July 13</td>
+                    <td>$80</td>
+                    <td><button id="view-btn-27" class="btn btn-outline-primary btn-sm" onclick=viewOrderDetails(event)>View</button></td>
+                </tr>
+                <tr>
+                    <th>28</th>
+                    <td>kchilds123</td>
+                    <td>Sunday July 13</td>
+                    <td>$80</td>
+                    <td><button id="view-btn-28" class="btn btn-outline-primary btn-sm" onclick=viewOrderDetails(event)>View</button></td>
+                </tr>
+                
+            </tbody>
+        </table>
+        <div id="order-detail-container">
+            <div class="order-detail-header">
+                <div>Order Id: 25</div>
+                <div>Customer: Olivier Nivose</div>
+                <div>Total: $220</div>
+            </div>
+            
+            <div class="product-section-header"><h3>Products : </h3></div>
+            
+            <div class="product-list-container">
+                <div class="product-details-container">
+                    <div class="product-detail">Name : Galaxy Buds </div>
+                    <div class="product-detail">Manufacturer : Samsung </div>
+                    <div class="product-detail">Type : Ear Buds </div>
+                    <div class="product-detail">Price : $270.00 </div>
+                </div>
+                <div class="product-details-container">
+                    <div class="product-detail">Name : Air Pods Pro </div>
+                    <div class="product-detail">Manufacturer : Apple </div>
+                    <div class="product-detail">Type : Ear Buds </div>
+                    <div class="product-detail">Price : $280.00 </div>
+                </div>
+                <div class="product-details-container">
+                    <div class="product-detail">Name : Galaxy S22 </div>
+                    <div class="product-detail">Manufacturer : Samsung </div>
+                    <div class="product-detail">Type : Smartphone </div>
+                    <div class="product-detail">Price : $950.50 </div>
+                </div>
+                <div class="product-details-container">
+                    <div class="product-detail">Name : Galaxy Buds </div>
+                    <div class="product-detail">Manufacturer : Samsung </div>
+                    <div class="product-detail">Type : Ear Buds </div>
+                    <div class="product-detail">Price : $270.00 </div>
+                </div>
+                <div class="product-details-container">
+                    <div class="product-detail">Name : Air Pods Pro </div>
+                    <div class="product-detail">Manufacturer : Apple </div>
+                    <div class="product-detail">Type : Ear Buds </div>
+                    <div class="product-detail">Price : $280.00 </div>
+                </div>
+                <div class="product-details-container">
+                    <div class="product-detail">Name : Galaxy S22 </div>
+                    <div class="product-detail">Manufacturer : Samsung </div>
+                    <div class="product-detail">Type : Smartphone </div>
+                    <div class="product-detail">Price : $950.50 </div>
+                </div>
+                <div class="product-details-container">
+                    <div class="product-detail">Name : Galaxy Buds </div>
+                    <div class="product-detail">Manufacturer : Samsung </div>
+                    <div class="product-detail">Type : Ear Buds </div>
+                    <div class="product-detail">Price : $270.00 </div>
+                </div>
+                <div class="product-details-container">
+                    <div class="product-detail">Name : Air Pods Pro </div>
+                    <div class="product-detail">Manufacturer : Apple </div>
+                    <div class="product-detail">Type : Ear Buds </div>
+                    <div class="product-detail">Price : $280.00 </div>
+                </div>
+                <div class="product-details-container">
+                    <div class="product-detail">Name : Galaxy S22 </div>
+                    <div class="product-detail">Manufacturer : Samsung </div>
+                    <div class="product-detail">Type : Smartphone </div>
+                    <div class="product-detail">Price : $950.50 </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="./dashboard.js"></script>
+</body>
+</html>
