@@ -39,24 +39,23 @@
         <div class="actions-container">
             <button class="btn btn-sm btn-primary" onclick="goToNewOrder()">Create New Order</button>
             
-            
-            <span class="filter-form-title">Filter By Ammount:</span>
+            <span class="filter-form-title">Filter By Amount:</span>
             <form class="filters" id="statusPick" onsubmit="filterByAmount(event)">
                 <select id="inequality">
                     <option value="0">Less Than</option>
                     <option value="1">Greater Than</option>
                 </select>
-                <input type="number" id="ammountFilterInput" class="filter-inputs" placeholder="Ammount" required > 
-                <button class="btn btn-sm btn-outline-primary" type="submit" id="statusFilterBtn" name="statusFilterForm" >Filter</button>
-                <button class="btn btn-sm btn-outline-danger" onclick="getAllforAll()" type="reset">Cancel</button>
+                <input type="number" id="ammountFilterInput" class="filter-inputs" placeholder="Amount" required > 
+                <button class="btn btn-sm btn-outline-primary" type="submit" id="amountFilterBtn" name="statusFilterForm" >Filter</button>
+                <button class="btn btn-sm btn-outline-danger" onclick="getAllOrders()" type="reset">Cancel</button>
             </form>
             
             
             <span class="filter-form-title">Filter By Customer Id:</span>
             <form class="filters" id="typePick" onsubmit="filterByType(event)">
                 <input type="number" id="typeFilterInput" class="filter-inputs"  placeholder="Customer ID" required> 
-                <button class="btn btn-sm btn-outline-primary" type="submit" id="typeFilterBtn" name="typeFilterForm" >Filter</button>
-                <button class="btn btn-sm btn-outline-danger" onclick="getAllforAll()" type="reset">Cancel</button>
+                <button class="btn btn-sm btn-outline-primary" type="submit" id="idFilterBtn" name="typeFilterForm" >Filter</button>
+                <button class="btn btn-sm btn-outline-danger" onclick="getAllOrders()" type="reset">Cancel</button>
             </form>
 
         </div>
@@ -67,7 +66,7 @@
                     <th>Order ID</th>
                     <th>Customer</th>
                     <th>Date Submitted</th>
-                    <th id="sorts" onclick="sortTable()">Ammount</th>
+                    <th id="sorts" onclick="sortTable()">Amount</th>
                     <th>Details</th>
                 </tr>
             </thead>
@@ -105,16 +104,12 @@
             </tbody>
         </table>
         <div id="order-detail-container">
-            <div class="order-detail-header">
-                <div>Order Id: 25</div>
-                <div>Customer: Olivier Nivose</div>
-                <div>Total: $220</div>
-            </div>
+            <div class="order-detail-header" id="order-detail-header"></div>
             
             <div class="product-section-header"><h3>Products : </h3></div>
             
-            <div class="product-list-container">
-                <div class="product-details-container">
+            <div class="product-list-container" id="product-list-container">
+                <!-- <div class="product-details-container">
                     <div class="product-detail">Name : Galaxy Buds </div>
                     <div class="product-detail">Manufacturer : Samsung </div>
                     <div class="product-detail">Type : Ear Buds </div>
@@ -167,7 +162,7 @@
                     <div class="product-detail">Manufacturer : Samsung </div>
                     <div class="product-detail">Type : Smartphone </div>
                     <div class="product-detail">Price : $950.50 </div>
-                </div>
+                </div> -->
                 
             </div>
         </div>

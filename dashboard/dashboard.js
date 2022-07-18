@@ -29,7 +29,7 @@ window.onload =  function (){
 
 }
 
-function viewOrderDetails(event){
+async function viewOrderDetails(event){
 
     let viewBtn = event.target;
 
@@ -37,19 +37,55 @@ function viewOrderDetails(event){
 
     console.log("Viewing details for order with id : " + orderId)
 
+    // get the order from the list 
+
     // create a div with the order details
+    // add display: block; property to make it show
+
+    let response = await fetch(`http://localhost:8080/api/v1/order/${orderId}`, {
+      method: "GET"
+  })
+  let responseBody = await response.json();
+  console.log(responseBody)
+  let order = responseBody.data
+
+    let ordercontainer = document.getElementById("order-detail-container")
+    ordercontainer.style.display = 'block'
+
+    let orderDetailHeader = document.getElementById("order-detail-header")
+    orderDetailHeader.innerHTML = `
+                <div>Order Id: ${order.orderId}</div>
+                <div>Customer: ${order.customer.firstName} ${order.customer.lastName}</div>
+                <div>Total: $${order.total}</div>
+    `
+    order.products.forEach(product => {
+      buildProductDetailCard(product)
+    })
 
 }
 
-function getAllOrders(){
+async function getAllOrders(){
     console.log("getting all orders")
     //for each order, create a new row in the orders table 
+    let response = await fetch("http://localhost:8080/api/v1/order", {
+        method: "GET"
+    })
+    let responseBody = await response.json();
+    console.log(responseBody)
+    let orders = responseBody.data
+    orders.forEach(order => {
+      buildOrderTableRow(order)
+    })
+    console.log("------------------------------")
+
 }
 
+//DONE
 function goToNewOrder(){
     window.location.href = `http://127.0.0.1:5502/new-order`
 }
 
+//DONE
 function sortTable(){
     var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
   table = document.getElementById("orders-table");
@@ -103,6 +139,49 @@ function sortTable(){
       }
     }
   }
+}
+
+//DONE
+function buildOrderTableRow(order){
+    let table = document.getElementById("orders-table")
+
+    let rowToInsert = document.createElement('tr')
+    
+    let orderIdCell = document.createElement("th")
+    orderIdCell.innerText = order.orderId
+
+    let customerUsernameCell = document.createElement("td")
+    customerUsernameCell.innerText = order.customer.username
+
+    let dateSubmittedCell = document.createElement("td")
+    dateSubmittedCell.innerText = new Date(order.timeSubmitted).toDateString()
+
+    let amountCell = document.createElement("td")
+    amountCell.innerText = "$" + order.total
+
+    let detailsCell = document.createElement("td")
+    detailsCell.innerHTML = `<button id="view-btn-${order.orderId}" class="btn btn-outline-primary btn-sm" onclick=viewOrderDetails(event)>View</button>`
+
+    rowToInsert.append(orderIdCell,customerUsernameCell,dateSubmittedCell,amountCell,detailsCell)
+    table.append(rowToInsert)
+
+}
+
+function buildProductDetailCard(product){
+  let productInfoContainerElem = document.getElementById("product-list-container")
+  //create a new div
+  let newDiv = document.createElement('div')
+  //give it a class
+  newDiv.classList.add('product-details-container')
+  //add the innerhtml to that div 
+  newDiv.innerHTML=`
+  <div class="product-detail">Name : ${product.name} </div>
+  <div class="product-detail">Manufacturer : ${product.manufacturer} </div>
+  <div class="product-detail">Type : ${product.type} </div>
+  <div class="product-detail">Price : $${product.price} </div>
+  `
+  //add that div to productinfocardelem
+  productInfoContainerElem.appendChild(newDiv)
 }
 
 

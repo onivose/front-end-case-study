@@ -83,6 +83,7 @@ body {
 table {
     width: 80vw;
     margin-top: 50px;
+    margin-bottom: 100px;
     font-size: 18px;
     border-collapse: collapse;
     box-shadow: 0 5px 20px rgba(137, 134, 134, 0.5);
@@ -117,10 +118,11 @@ tbody tr:nth-child(even) {
 /* ----------------------------------------------------- ORDER DETAILS STYLING ----------------------------------------------------- */
 
 #order-detail-container{
+    display: none;
     width: 80vw;
     background-color: #eff4f7;
     padding: 40px;
-    margin: 50px;
+    margin: 0px 50px 50px 50px;
     box-shadow: 0 5px 20px rgba(137, 134, 134, 0.5);
 }
 .order-detail-header{
