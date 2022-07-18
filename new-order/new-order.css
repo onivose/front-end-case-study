@@ -12,3 +12,121 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
+
+.main-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/*
+-----------COLOR PALETTE---------------
+#fafad2 
+#1c7ed6 Blue 7
+#339af0 Blue 5
+#4dabf7 Blue 4
+#74c0fc Blue 3 (Background Right)
+#a5d8ff Blue 2
+#d0ebff Blue 1 
+#d4e7f5 Blue 0.5 (Background Left)
+#e7f5ff Blue 0
+#eff4f7 Blue Grey (NavBar and Login Form)
+---------------------------------------
+ */
+
+#welcome-message{
+    margin: 80px;
+}
+
+.actions-container{
+    width: 80vw;
+    height: auto;
+    padding: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: #eff4f7;
+    border-radius: 1px;
+    margin-bottom: 50px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(137, 134, 134, 0.5);
+    
+}
+
+.action-form-title{
+    align-self: center;
+}
+.action-inputs{
+    border: none;
+    border-bottom: 1px solid #0d6efd;
+    width: 115px;
+    background: transparent;
+    padding: 5px;
+}
+.action-inputs:focus{
+    outline: none
+}
+
+#submit-order-btn{
+    
+    display: none;
+}
+
+#message{
+    color: red;
+    /* color: #2f9e44; */
+}
+
+#order-detail-container{
+    display: none;
+    width: 80vw;
+    background-color: #eff4f7;
+    padding: 40px;
+    margin: 0px 50px 50px 50px;
+    box-shadow: 0 5px 20px rgba(137, 134, 134, 0.5);
+    /* display: block; */
+}
+.order-detail-header{
+    display: flex;
+    justify-content: space-between;
+    color: #2c82cc;
+    color: #339af0;
+    font-weight: bold;
+}
+.product-list-container{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 20px;
+    /* overflow-y: scroll; */
+}
+
+.product-section-header{
+    margin: 12px 0px 15px 0px; /* Margin on top and bottom only */
+}
+
+.product-detail{
+    margin: 10px;
+}
+.product-details-container {
+    background-color: #e9ecef;
+    border-radius: 7px;
+    padding: 10px;
+}
+
+.add-product-btn{
+    width: 100%;
+    background-color: #a5d8ff;
+    border-radius: 6px;
+    border: none;
+    padding: 7px;
+    transition: 0.20s;
+    margin-bottom: 3px;
+}
+
+.add-product-btn:hover{
+    background-color: #74c0fc;
+    transition: 0.20s;
+}
