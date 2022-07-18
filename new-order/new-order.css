@@ -88,6 +88,13 @@ body {
     box-shadow: 0 5px 20px rgba(137, 134, 134, 0.5);
     /* display: block; */
 }
+
+#no-avail-prods-message{
+    font-size: x-large;
+    font-weight: 900;
+    color: red;
+}
+
 .order-detail-header{
     display: flex;
     justify-content: space-between;

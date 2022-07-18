@@ -34,7 +34,7 @@
     <div class="main-container">
         <H1 id="welcome-message">NEW ORDER</H1>
 
-        <div class="actions-container">
+        <div class="actions-container" id="actions-container">
             <form class="actions" id="customer-id-input-form" onsubmit="beginNewOrder(event)">
                 <span class="action-form-title">Enter Customer Id:</span>
                 <input type="number" id="customer-id-input" class="action-inputs" placeholder="Customer Id" required > 
@@ -53,7 +53,10 @@
             <div class="product-section-header"><h3>Available Products : </h3></div>
             
             <div class="product-list-container" id="product-list-container">
-                <div class="product-details-container">
+
+                    <div id="no-avail-prods-message">There Are No Available Products To Purchase At This Time</div>
+
+                <!-- <div class="product-details-container">
                     <div class="product-detail">Name : Galaxy Buds </div>
                     <div class="product-detail">Manufacturer : Samsung </div>
                     <div class="product-detail">Type : Ear Buds </div>
@@ -61,124 +64,12 @@
                     <button class="add-product-btn" id="add-prod-btn-12" onclick="addProductToOrder(event)">Add To Order</button>
                 </div>
                 <div class="product-details-container">
-                    <div class="product-detail">Name : Air Pods Pro </div>
-                    <div class="product-detail">Manufacturer : Apple </div>
-                    <div class="product-detail">Type : Ear Buds </div>
-                    <div class="product-detail">Price : $280.00 </div>
-                    <button class="add-product-btn" id="add-prod-btn-13" onclick="addProductToOrder(event)">Add To Order</button>
-                </div>
-                <div class="product-details-container">
-                    <div class="product-detail">Name : Galaxy S22 </div>
-                    <div class="product-detail">Manufacturer : Samsung </div>
-                    <div class="product-detail">Type : Smartphone </div>
-                    <div class="product-detail">Price : $950.50 </div>
-                    <button class="add-product-btn" id="add-prod-btn-16" onclick="addProductToOrder(event)">Add To Order</button>
-                </div>
-                <div class="product-details-container">
-                    <div class="product-detail">Name : Galaxy Buds </div>
-                    <div class="product-detail">Manufacturer : Samsung </div>
-                    <div class="product-detail">Type : Ear Buds </div>
-                    <div class="product-detail">Price : $270.00 </div>
-                    <button class="add-product-btn" id="add-prod-btn-18" onclick="addProductToOrder(event)">Add To Order</button>
-                </div>
-                <div class="product-details-container">
-                    <div class="product-detail">Name : Air Pods Pro </div>
-                    <div class="product-detail">Manufacturer : Apple </div>
-                    <div class="product-detail">Type : Ear Buds </div>
-                    <div class="product-detail">Price : $280.00 </div>
-                    <button class="add-product-btn" id="add-prod-btn-17" onclick="addProductToOrder(event)">Add To Order</button>
-                </div>
-                <div class="product-details-container">
-                    <div class="product-detail">Name : Galaxy S22 </div>
-                    <div class="product-detail">Manufacturer : Samsung </div>
-                    <div class="product-detail">Type : Smartphone </div>
-                    <div class="product-detail">Price : $950.50 </div>
-                    <button class="add-product-btn" id="add-prod-btn-189" onclick="addProductToOrder(event)">Add To Order</button>
-                </div>
-                <div class="product-details-container">
-                    <div class="product-detail">Name : Galaxy Buds </div>
-                    <div class="product-detail">Manufacturer : Samsung </div>
-                    <div class="product-detail">Type : Ear Buds </div>
-                    <div class="product-detail">Price : $270.00 </div>
-                    <button class="add-product-btn" id="add-prod-btn-1275" onclick="addProductToOrder(event)">Add To Order</button>
-                </div>
-                <div class="product-details-container">
-                    <div class="product-detail">Name : Air Pods Pro </div>
-                    <div class="product-detail">Manufacturer : Apple </div>
-                    <div class="product-detail">Type : Ear Buds </div>
-                    <div class="product-detail">Price : $280.00 </div>
-                    <button class="add-product-btn" id="add-prod-btn-5" onclick="addProductToOrder(event)">Add To Order</button>
-                </div>
-                <div class="product-details-container">
-                    <div class="product-detail">Name : Galaxy S22 </div>
-                    <div class="product-detail">Manufacturer : Samsung </div>
-                    <div class="product-detail">Type : Smartphone </div>
-                    <div class="product-detail">Price : $950.50 </div>
-                    <button class="add-product-btn" id="add-prod-btn-25" onclick="addProductToOrder(event)">Add To Order</button>
-                </div>
-                <div class="product-details-container">
-                    <div class="product-detail">Name : Galaxy Buds </div>
-                    <div class="product-detail">Manufacturer : Samsung </div>
-                    <div class="product-detail">Type : Ear Buds </div>
-                    <div class="product-detail">Price : $270.00 </div>
-                    <button class="add-product-btn" id="add-prod-btn-26" onclick="addProductToOrder(event)">Add To Order</button>
-                </div>
-                <div class="product-details-container">
-                    <div class="product-detail">Name : Air Pods Pro </div>
-                    <div class="product-detail">Manufacturer : Apple </div>
-                    <div class="product-detail">Type : Ear Buds </div>
-                    <div class="product-detail">Price : $280.00 </div>
-                    <button class="add-product-btn" id="add-prod-btn-27" onclick="addProductToOrder(event)">Add To Order</button>
-                </div>
-                <div class="product-details-container">
-                    <div class="product-detail">Name : Galaxy S22 </div>
-                    <div class="product-detail">Manufacturer : Samsung </div>
-                    <div class="product-detail">Type : Smartphone </div>
-                    <div class="product-detail">Price : $950.50 </div>
-                    <button class="add-product-btn" id="add-prod-btn-28" onclick="addProductToOrder(event)">Add To Order</button>
-                </div>
-                <div class="product-details-container">
-                    <div class="product-detail">Name : Galaxy Buds </div>
-                    <div class="product-detail">Manufacturer : Samsung </div>
-                    <div class="product-detail">Type : Ear Buds </div>
-                    <div class="product-detail">Price : $270.00 </div>
-                    <button class="add-product-btn" id="add-prod-btn-29" onclick="addProductToOrder(event)">Add To Order</button>
-                </div>
-                <div class="product-details-container">
-                    <div class="product-detail">Name : Air Pods Pro </div>
-                    <div class="product-detail">Manufacturer : Apple </div>
-                    <div class="product-detail">Type : Ear Buds </div>
-                    <div class="product-detail">Price : $280.00 </div>
-                    <button class="add-product-btn" id="add-prod-btn-30" onclick="addProductToOrder(event)">Add To Order</button>
-                </div>
-                <div class="product-details-container">
-                    <div class="product-detail">Name : Galaxy S22 </div>
-                    <div class="product-detail">Manufacturer : Samsung </div>
-                    <div class="product-detail">Type : Smartphone </div>
-                    <div class="product-detail">Price : $950.50 </div>
-                    <button class="add-product-btn" id="add-prod-btn-31" onclick="addProductToOrder(event)">Add To Order</button>
-                </div>
-                <div class="product-details-container">
-                    <div class="product-detail">Name : Galaxy Buds </div>
-                    <div class="product-detail">Manufacturer : Samsung </div>
-                    <div class="product-detail">Type : Ear Buds </div>
-                    <div class="product-detail">Price : $270.00 </div>
-                    <button class="add-product-btn" id="add-prod-btn-32" onclick="addProductToOrder(event)">Add To Order</button>
-                </div>
-                <div class="product-details-container">
-                    <div class="product-detail">Name : Air Pods Pro </div>
-                    <div class="product-detail">Manufacturer : Apple </div>
-                    <div class="product-detail">Type : Ear Buds </div>
-                    <div class="product-detail">Price : $280.00 </div>
-                    <button class="add-product-btn" id="add-prod-btn-33" onclick="addProductToOrder(event)">Add To Order</button>
-                </div>
-                <div class="product-details-container">
                     <div class="product-detail">Name : Galaxy S22 </div>
                     <div class="product-detail">Manufacturer : Samsung </div>
                     <div class="product-detail">Type : Smartphone </div>
                     <div class="product-detail">Price : $950.50 </div>
                     <button class="add-product-btn" id="add-prod-btn-34" onclick="addProductToOrder(event)">Add To Order</button>
-                </div>
+                </div> -->
                 
             </div>
         </div>

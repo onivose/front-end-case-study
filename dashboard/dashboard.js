@@ -67,17 +67,15 @@ async function viewOrderDetails(event){
 async function getAllOrders(){
     console.log("getting all orders")
     //for each order, create a new row in the orders table 
-    let response = await fetch("http://localhost:8080/api/v1/order", {
+    let request = await fetch("http://localhost:8080/api/v1/order", {
         method: "GET"
     })
-    let responseBody = await response.json();
+    let responseBody = await request.json();
     console.log(responseBody)
     let orders = responseBody.data
     orders.forEach(order => {
       buildOrderTableRow(order)
     })
-    console.log("------------------------------")
-
 }
 
 //DONE
@@ -153,6 +151,9 @@ function buildOrderTableRow(order){
     let customerUsernameCell = document.createElement("td")
     customerUsernameCell.innerText = order.customer.username
 
+    let customerIdCell = document.createElement("td")
+    customerIdCell.innerText = order.customer.customerId
+
     let dateSubmittedCell = document.createElement("td")
     dateSubmittedCell.innerText = new Date(order.timeSubmitted).toDateString()
 
@@ -162,7 +163,7 @@ function buildOrderTableRow(order){
     let detailsCell = document.createElement("td")
     detailsCell.innerHTML = `<button id="view-btn-${order.orderId}" class="btn btn-outline-primary btn-sm" onclick=viewOrderDetails(event)>View</button>`
 
-    rowToInsert.append(orderIdCell,customerUsernameCell,dateSubmittedCell,amountCell,detailsCell)
+    rowToInsert.append(orderIdCell,customerUsernameCell,customerIdCell,dateSubmittedCell,amountCell,detailsCell)
     table.append(rowToInsert)
 
 }

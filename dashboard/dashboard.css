@@ -100,7 +100,7 @@ thead tr {
 }
 
 thead th {
-    width: 25%;
+    width: auto;
 }
 
 #sorts:hover{
