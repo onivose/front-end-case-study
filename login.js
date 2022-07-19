@@ -3,7 +3,7 @@
 //this function gets the form from the html document, waits for it to be submitted then does the async functionality to log in 
 document.getElementById("login-form").addEventListener("submit", async function (event){ 
     
-    //this is to stop the form from reloading 
+    //this is to stop the page from reloading 
     event.preventDefault();
     
     //retrieve input elements from the HTML Document

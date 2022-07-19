@@ -1,53 +1,25 @@
 
 window.onload =  function (){
-    /////////////////////////////////////////////////////////////////////////////////
-    // Figure out how to make this work with only query param
-    /* let params = (new URL(document.location)).searchParams;
-    
-    let customerId = params.get("customerId");
-    console.log("customer id is " + customerId) */
-    ///////////////////////////////////////////////////////////////////////////////////
-
-    /* let response = await fetch("http://localhost:8080/api/v1/customer", {
-        method: "GET",
-        headers: new Headers({'content-type': 'application/json'})
-    })
-
-    let responseBody = await response.json();
-    console.log(responseBody)
-
-    if(!responseBody.success){ // if a session was not found redirect to login
-        //window.location = "../";
-    } */
-/* 
-    customer = responseBody.data; 
-
-    let messageElem = document.getElementById("welcomeMessage")
-    messageElem.innerText = `Welcome ${customer.firstName} ${customer.lastName} !` */
-
-    getAllOrders()
-
+  // implement sorting algorithm
+  getAllOrders()
 }
-
+// add window navigation to oder details and smooth scrolling
 async function viewOrderDetails(event){
+  let productInfoContainerElem = document.getElementById("product-list-container")
+  productInfoContainerElem.innerHTML=""
 
     let viewBtn = event.target;
 
     let orderId = viewBtn.id.substring("view-btn-".length);
 
-    console.log("Viewing details for order with id : " + orderId)
-
-    // get the order from the list 
-
-    // create a div with the order details
-    // add display: block; property to make it show
-
     let response = await fetch(`http://localhost:8080/api/v1/order/${orderId}`, {
       method: "GET"
   })
   let responseBody = await response.json();
-  console.log(responseBody)
   let order = responseBody.data
+
+  // create a div with the order details
+    // add display: block; property to make it show
 
     let ordercontainer = document.getElementById("order-detail-container")
     ordercontainer.style.display = 'block'
@@ -64,18 +36,48 @@ async function viewOrderDetails(event){
 
 }
 
+//DONE
 async function getAllOrders(){
-    console.log("getting all orders")
-    //for each order, create a new row in the orders table 
-    let request = await fetch("http://localhost:8080/api/v1/order", {
-        method: "GET"
-    })
-    let responseBody = await request.json();
-    console.log(responseBody)
+  
+  //delete the table of previous orders first if it exists
+  deleteOldTableAndFeedback()
+
+  // Remove order details container
+  let ordercontainer = document.getElementById("order-detail-container")
+  ordercontainer.style.display = 'none'
+
+  //send request for orders
+  let request = await fetch("http://localhost:8080/api/v1/order", {
+      method: "GET"
+  })
+
+  //get response
+  let responseBody = await request.json();
+  
+  //check if there are no orders available
+  if(!responseBody.success){
+    let feedbackSectionElem = document.getElementById("table-section")
+    let noOrderFeedbackDiv = document.createElement("div")
+    noOrderFeedbackDiv.setAttribute("id", "request-feedback")
+    noOrderFeedbackDiv.innerText = responseBody.message
+    feedbackSectionElem.appendChild(noOrderFeedbackDiv)
+
+
+  } else {
     let orders = responseBody.data
+
+    // build a new table head
+    buildTableHead()
+
+    // insert a row with an order for each orders
     orders.forEach(order => {
-      buildOrderTableRow(order)
+    buildOrderTableRow(order)
     })
+
+    // style table rows to make readable
+    alternateRowColors("#f8f9fa","#e9ecef")
+  }
+  
 }
 
 //DONE
@@ -83,8 +85,8 @@ function goToNewOrder(){
     window.location.href = `http://127.0.0.1:5502/new-order`
 }
 
-//DONE
-function sortTable(){
+//NOT WORKING
+function sortTableNOTWORKING(){
     var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
   table = document.getElementById("orders-table");
   switching = true;
@@ -137,10 +139,12 @@ function sortTable(){
       }
     }
   }
+  alternateRowColors("#f8f9fa","#e9ecef")
 }
 
-//DONE
+//DONE 
 function buildOrderTableRow(order){
+
     let table = document.getElementById("orders-table")
 
     let rowToInsert = document.createElement('tr')
@@ -158,16 +162,16 @@ function buildOrderTableRow(order){
     dateSubmittedCell.innerText = new Date(order.timeSubmitted).toDateString()
 
     let amountCell = document.createElement("td")
-    amountCell.innerText = "$" + order.total
+    amountCell.innerText = order.total
 
     let detailsCell = document.createElement("td")
     detailsCell.innerHTML = `<button id="view-btn-${order.orderId}" class="btn btn-outline-primary btn-sm" onclick=viewOrderDetails(event)>View</button>`
 
     rowToInsert.append(orderIdCell,customerUsernameCell,customerIdCell,dateSubmittedCell,amountCell,detailsCell)
     table.append(rowToInsert)
-
 }
 
+//DONE
 function buildProductDetailCard(product){
   let productInfoContainerElem = document.getElementById("product-list-container")
   //create a new div
@@ -185,4 +189,173 @@ function buildProductDetailCard(product){
   productInfoContainerElem.appendChild(newDiv)
 }
 
+//DONE
+async function filterByAmount(event){
+  //this is to stop the page from reloading 
+  event.preventDefault();
 
+  // Remove order details container
+  let ordercontainer = document.getElementById("order-detail-container")
+  ordercontainer.style.display = 'none'
+
+  //delete the table of previous orders first if it exists
+  deleteOldTableAndFeedback()
+
+  //get amount
+  const amountFilterInputElem = document.getElementById("amount-filter-input")
+  let amount = amountFilterInputElem.value
+
+  //get filtertype
+  const inequalityFilterInputElem = document.getElementById("inequality")
+  let inequalityFilter = inequalityFilterInputElem.value
+
+  //prepare the request
+  let inequalityString = ""
+  switch (inequalityFilter){
+    case "0":
+      inequalityString = "lessThan"
+      break
+    case "1":
+      inequalityString = "greaterThan"
+        break
+  }
+
+  //send request for orders
+  let request = await fetch(`http://localhost:8080/api/v1/order/${inequalityString}/${amount}`, {
+      method: "GET"
+  })
+
+  //get response
+  let responseBody = await request.json();
+  
+  //check if there are no orders available
+  if(!responseBody.success){
+    let feedbackSectionElem = document.getElementById("table-section")
+    let noOrderFeedbackDiv = document.createElement("div")
+    noOrderFeedbackDiv.setAttribute("id", "request-feedback")
+    noOrderFeedbackDiv.innerText = responseBody.message
+    feedbackSectionElem.appendChild(noOrderFeedbackDiv)
+
+
+  } else {
+    let orders = responseBody.data
+
+    // build a new table head
+    buildTableHead()
+
+    // insert a row with an order for each orders
+    orders.forEach(order => {
+    buildOrderTableRow(order)
+    })
+
+    // style table rows to make readable
+    alternateRowColors("#f8f9fa","#e9ecef")
+  }
+    
+}
+
+//DONE (should add filter for order id)
+async function filterByCustomerId(event){
+  //this is to stop the page from reloading 
+  event.preventDefault();
+
+  // Remove order details container
+  let ordercontainer = document.getElementById("order-detail-container")
+  ordercontainer.style.display = 'none'
+
+  //get customer Id
+  let idFilterInputElem = document.getElementById("id-filter-input")
+  let customerId = idFilterInputElem.value
+
+  //delete the table of previous orders first if it exists
+  deleteOldTableAndFeedback()
+  
+  //send http request
+  let request = await fetch(`http://localhost:8080/api/v1/order/customer/${customerId}`, {
+    method: "GET"
+  })
+  
+  //get response
+  let responseBody = await request.json();
+  console.log(responseBody)
+
+  if(!responseBody.success){
+    let feedbackSectionElem = document.getElementById("table-section")
+    let noOrderFeedbackDiv = document.createElement("div")
+    noOrderFeedbackDiv.setAttribute("id", "request-feedback")
+    noOrderFeedbackDiv.innerText = responseBody.message
+    feedbackSectionElem.appendChild(noOrderFeedbackDiv)
+
+
+  } else { 
+    let orders = responseBody.data
+
+    // build a new table head
+    buildTableHead()
+
+    //for each order, create a new row in the orders table 
+    orders.forEach(order => {
+    buildOrderTableRow(order)
+  })
+
+  // style table rows to make readable
+  alternateRowColors("#f8f9fa","#e9ecef")
+  }
+
+  
+}
+
+function alternateRowColors(firstcolor,secondcolor){
+    var tableElements = document.getElementsByTagName("table") ;
+    for(var j = 0; j < tableElements.length; j++){
+        var table = tableElements[j] ;
+
+        var rows = table.getElementsByTagName("tr") ;
+        for(var i = 1; i <= rows.length-1; i++){
+            if(i%2==0){
+                rows[i].style.backgroundColor = firstcolor ;
+            }
+            else{
+                rows[i].style.backgroundColor = secondcolor ;
+            }
+        }
+    }
+}
+
+//DONE
+function deleteOldTableAndFeedback(){
+  //delete the table of previous orders first if it exists
+  let oldTable = document.querySelector("table")
+  if(oldTable != null){
+    oldTable.remove()
+  }
+
+  let oldFeedback = document.getElementById("request-feedback")
+  if(oldFeedback != null){
+    oldFeedback.remove()
+  }
+}
+
+//DONE
+function buildTableHead(){
+  //create a new table with head 
+  let newTable = document.createElement("table")
+  newTable.setAttribute("id", "orders-table")
+  newTable.innerHTML=`
+    <thead>
+      <tr>
+          <th>Order ID</th>
+          <th>Customer</th>
+          <th>Customer ID</th>
+          <th>Date Submitted</th>
+          <th>Amount</th>
+          <th>Details</th>
+      </tr>
+    </thead>  
+  `
+  let tableSectionElem = document.getElementById("table-section")
+  tableSectionElem.appendChild(newTable)
+}
+
+function implementSorting(){
+}
