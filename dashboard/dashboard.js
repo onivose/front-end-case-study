@@ -1,7 +1,9 @@
 
 window.onload =  function (){
-  // implement sorting algorithm
   getAllOrders()
+
+  // implement sorting algorithm here maybe
+  
 }
 // add window navigation to oder details and smooth scrolling
 async function viewOrderDetails(event){
@@ -33,6 +35,8 @@ async function viewOrderDetails(event){
     order.products.forEach(product => {
       buildProductDetailCard(product)
     })
+
+    window.location.href = `#order-detail-container`
 
 }
 
@@ -255,7 +259,7 @@ async function filterByAmount(event){
 }
 
 //DONE (should add filter for order id)
-async function filterByCustomerId(event){
+async function filterById(event){
   //this is to stop the page from reloading 
   event.preventDefault();
 
@@ -263,15 +267,31 @@ async function filterByCustomerId(event){
   let ordercontainer = document.getElementById("order-detail-container")
   ordercontainer.style.display = 'none'
 
-  //get customer Id
+  //get customer or user Id
   let idFilterInputElem = document.getElementById("id-filter-input")
-  let customerId = idFilterInputElem.value
+  let customerOrOrderId = idFilterInputElem.value
 
   //delete the table of previous orders first if it exists
   deleteOldTableAndFeedback()
+
+  //get filtertype
+  const orderFilterInputElem = document.getElementById("order-or-customer-id")
+  let orderFilter = orderFilterInputElem.value
+
+  //prepare the request
+  let requestString = ""
+  switch (orderFilter){
+    case "0":
+      requestString = "/"
+      break
+    case "1":
+      requestString = "/customer/"
+        break
+  }
+  console.log(`http://localhost:8080/api/v1/order${requestString}${customerOrOrderId}`)
   
   //send http request
-  let request = await fetch(`http://localhost:8080/api/v1/order/customer/${customerId}`, {
+  let request = await fetch(`http://localhost:8080/api/v1/order${requestString}${customerOrOrderId}`, {
     method: "GET"
   })
   
@@ -293,10 +313,15 @@ async function filterByCustomerId(event){
     // build a new table head
     buildTableHead()
 
-    //for each order, create a new row in the orders table 
-    orders.forEach(order => {
-    buildOrderTableRow(order)
-  })
+    if(orderFilter === "1"){
+      //for each order, create a new row in the orders table 
+      orders.forEach(order => {
+        buildOrderTableRow(order)
+      })
+    } else {
+      buildOrderTableRow(orders)
+    }
+    
 
   // style table rows to make readable
   alternateRowColors("#f8f9fa","#e9ecef")
@@ -357,5 +382,14 @@ function buildTableHead(){
   tableSectionElem.appendChild(newTable)
 }
 
-function implementSorting(){
+function changePlaceholder(){
+
+  let selectedPlaceholder = document.getElementById("order-or-customer-id").value
+  let placeholderToChange = document.getElementById("id-filter-input")
+
+  if(selectedPlaceholder == "1"){
+    placeholderToChange.placeholder="Customer Id"
+  } else{
+    placeholderToChange.placeholder="Order Id"
+  }
 }

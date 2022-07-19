@@ -54,16 +54,16 @@ body {
     box-shadow: 0 5px 20px rgba(137, 134, 134, 0.5);
     
 }
-#inequality{
+.action-form-select{
     padding: 5px;
     border: none;
     background: #eaedf6;
     text-align: center;
 }
-#inequality:hover{
+.action-form-select:hover{
     cursor: pointer;
 }
-#inequality:focus{
+.action-form-select:focus{
     outline-color: #0d6efd;
 }
 .filter-form-title{
@@ -78,6 +78,10 @@ body {
 }
 .filter-inputs:focus{
     outline: none
+}
+
+.filter-inputs::placeholder{
+    text-align: center;
 }
 
 #request-feedback{

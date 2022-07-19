@@ -124,6 +124,35 @@ function addProductToOrder(event){
     addToOrderBtnElem.style.display = 'none' 
 }
 
+function confirmSubmission(){
+
+    // if there was a feedback message, take it off the screen 
+    let feedbackMessageElem = document.getElementById("message")
+    
+    if(feedbackMessageElem != null){
+        feedbackMessageElem.remove()
+    }
+
+    
+    // Add feedback if no products are added to order
+    let actionsContainerElem = document.getElementById("actions-container")
+    if (productsToBuy.length === 0) {
+
+        //create a new div
+        let noProdsSelected = document.createElement('div')
+
+        //give it an id of message
+        noProdsSelected.setAttribute("id", "message")
+
+        //add the innerText to that div 
+        noProdsSelected.innerText = "Please select a product to purchase"
+
+        //add that div to actionsContainerElem
+        actionsContainerElem.appendChild(noProdsSelected)
+    } else if (confirm("Confirm Order submission?")){
+        submitOrder()
+    }
+}
 //DONE
 async function submitOrder(){
     // if there was a feedback message, take it off the screen 
