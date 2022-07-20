@@ -22,7 +22,7 @@ async function beginNewOrder(event){
     let customerId = customerIdInputElem.value
 
     //send first http request
-    let request1 = await fetch("http://localhost:8080/api/v1/product", {
+    let request1 = await fetch(`${domain}/api/v1/product`, {
         method: "GET"
     })
 
@@ -46,7 +46,7 @@ async function beginNewOrder(event){
         actionsContainerElem.appendChild(feedback)
     } else {
         // Send second http request 
-    let request = await fetch(`http://localhost:8080/api/v1/order/${customerId}`, {
+    let request = await fetch(`${domain}/api/v1/order/${customerId}`, {
         method: "POST"
     })
     //get responsebody
@@ -179,7 +179,7 @@ async function submitOrder(){
 
     } else {
         // Send http request with orderid and products 
-        let request = await fetch(`http://localhost:8080/api/v1/order/submit/${orderIdToSubmit}`, {
+        let request = await fetch(`${domain}/api/v1/order/submit/${orderIdToSubmit}`, {
             method: "POST",
             headers: new Headers({'content-type': 'application/json'}),
             body: JSON.stringify(productsToBuy)
@@ -230,7 +230,7 @@ async function getAllAvailableProducts(){
     console.log("getting all available products")
     
     //send request
-    let request = await fetch("http://localhost:8080/api/v1/product", {
+    let request = await fetch(`${domain}/api/v1/product`, {
         method: "GET"
     })
 

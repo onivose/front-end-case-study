@@ -15,10 +15,9 @@ document.getElementById("login-form").addEventListener("submit", async function 
         username: usernameInputElem.value,
         password: passwordInputElem.value
     }
-    // console.log(user)
 
     //send the http request
-    let response = await fetch("http://localhost:8080/api/v1/customer/login", {
+    let response = await fetch(`${domain}/api/v1/customer/login`, {
         method: "POST",
         headers: new Headers({'content-type': 'application/json'}),
         body: JSON.stringify(user)
@@ -26,8 +25,6 @@ document.getElementById("login-form").addEventListener("submit", async function 
 
     //retrieve the response body
     let responseBody = await response.json();
-    //console.log(responseBody)
-
 
     //logic after getting http response body
     if(responseBody.success == false){
@@ -36,16 +33,7 @@ document.getElementById("login-form").addEventListener("submit", async function 
         messageElem.innerText = responseBody.message
 
     }else{
-
-        //todo try to fix this
-        console.log("customer id is: " + responseBody.data.customerId)
-        const id = 25
         window.location.href = `http://127.0.0.1:5502/dashboard`
-        
-        //dashboard?customerId=${responseBody.data.customerId}
-        
-        
-    
     }
 
 })

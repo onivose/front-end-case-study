@@ -13,7 +13,7 @@ async function viewOrderDetails(event){
 
     let orderId = viewBtn.id.substring("view-btn-".length);
 
-    let response = await fetch(`http://localhost:8080/api/v1/order/${orderId}`, {
+    let response = await fetch(`${domain}/api/v1/order/${orderId}`, {
       method: "GET"
   })
   let responseBody = await response.json();
@@ -50,7 +50,7 @@ async function getAllOrders(){
   ordercontainer.style.display = 'none'
 
   //send request for orders
-  let request = await fetch("http://localhost:8080/api/v1/order", {
+  let request = await fetch(`${domain}/api/v1/order`, {
       method: "GET"
   })
 
@@ -167,7 +167,7 @@ async function filterByAmount(event){
   }
 
   //send request for orders
-  let request = await fetch(`http://localhost:8080/api/v1/order/${inequalityString}/${amount}`, {
+  let request = await fetch(`${domain}/api/v1/order/${inequalityString}/${amount}`, {
       method: "GET"
   })
 
@@ -230,10 +230,9 @@ async function filterById(event){
       requestString = "/customer/"
         break
   }
-  console.log(`http://localhost:8080/api/v1/order${requestString}${customerOrOrderId}`)
   
   //send http request
-  let request = await fetch(`http://localhost:8080/api/v1/order${requestString}${customerOrOrderId}`, {
+  let request = await fetch(`${domain}/api/v1/order${requestString}${customerOrOrderId}`, {
     method: "GET"
   })
   
