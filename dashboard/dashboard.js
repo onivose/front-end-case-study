@@ -1,11 +1,10 @@
 
 window.onload =  function (){
+  //get all orders
   getAllOrders()
-
-  // implement sorting algorithm here maybe
-  
 }
-// add window navigation to oder details and smooth scrolling
+
+//DONE
 async function viewOrderDetails(event){
   let productInfoContainerElem = document.getElementById("product-list-container")
   productInfoContainerElem.innerHTML=""
@@ -89,71 +88,14 @@ function goToNewOrder(){
     window.location.href = `http://127.0.0.1:5502/new-order`
 }
 
-//NOT WORKING
-function sortTableNOTWORKING(){
-    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-  table = document.getElementById("orders-table");
-  switching = true;
-  // Set the sorting direction to ascending:
-  dir = "asc";
-  /* Make a loop that will continue until
-  no switching has been done: */
-  while (switching) {
-    // Start by saying: no switching is done:
-    switching = false;
-    rows = table.rows;
-    /* Loop through all table rows (except the
-    first, which contains table headers): */
-    for (i = 1; i < (rows.length - 1); i++) {
-      // Start by saying there should be no switching:
-      shouldSwitch = false;
-      /* Get the two elements you want to compare,
-      one from current row and one from the next: */
-      x = rows[i].getElementsByTagName("TD")[3];
-      y = rows[i + 1].getElementsByTagName("TD")[3];
-      /* Check if the two rows should switch place,
-      based on the direction, asc or desc: */
-      if (dir == "asc") {
-        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-          // If so, mark as a switch and break the loop:
-          shouldSwitch = true;
-          break;
-        }
-      } else if (dir == "desc") {
-        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-          // If so, mark as a switch and break the loop:
-          shouldSwitch = true;
-          break;
-        }
-      }
-    }
-    if (shouldSwitch) {
-      /* If a switch has been marked, make the switch
-      and mark that a switch has been done: */
-      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-      switching = true;
-      // Each time a switch is done, increase this count by 1:
-      switchcount ++;
-    } else {
-      /* If no switching has been done AND the direction is "asc",
-      set the direction to "desc" and run the while loop again. */
-      if (switchcount == 0 && dir == "asc") {
-        dir = "desc";
-        switching = true;
-      }
-    }
-  }
-  alternateRowColors("#f8f9fa","#e9ecef")
-}
-
 //DONE 
 function buildOrderTableRow(order){
 
-    let table = document.getElementById("orders-table")
+    let table = document.getElementById("orders-table-tbody")
 
     let rowToInsert = document.createElement('tr')
     
-    let orderIdCell = document.createElement("th")
+    let orderIdCell = document.createElement("td")
     orderIdCell.innerText = order.orderId
 
     let customerUsernameCell = document.createElement("td")
@@ -166,7 +108,7 @@ function buildOrderTableRow(order){
     dateSubmittedCell.innerText = new Date(order.timeSubmitted).toDateString()
 
     let amountCell = document.createElement("td")
-    amountCell.innerText = order.total
+    amountCell.innerText = "$" + order.total
 
     let detailsCell = document.createElement("td")
     detailsCell.innerHTML = `<button id="view-btn-${order.orderId}" class="btn btn-outline-primary btn-sm" onclick=viewOrderDetails(event)>View</button>`
@@ -258,7 +200,7 @@ async function filterByAmount(event){
     
 }
 
-//DONE (should add filter for order id)
+//DONE
 async function filterById(event){
   //this is to stop the page from reloading 
   event.preventDefault();
@@ -330,6 +272,7 @@ async function filterById(event){
   
 }
 
+//DONE
 function alternateRowColors(firstcolor,secondcolor){
     var tableElements = document.getElementsByTagName("table") ;
     for(var j = 0; j < tableElements.length; j++){
@@ -366,6 +309,7 @@ function buildTableHead(){
   //create a new table with head 
   let newTable = document.createElement("table")
   newTable.setAttribute("id", "orders-table")
+  newTable.classList.add("table-sortable")
   newTable.innerHTML=`
     <thead>
       <tr>
@@ -374,14 +318,21 @@ function buildTableHead(){
           <th>Customer ID</th>
           <th>Date Submitted</th>
           <th>Amount</th>
-          <th>Details</th>
+          <th style="pointer-events:none;">Details</th>
       </tr>
-    </thead>  
+    </thead> 
+    <tbody id="orders-table-tbody">
+
+    </tbody> 
   `
   let tableSectionElem = document.getElementById("table-section")
   tableSectionElem.appendChild(newTable)
+
+  // implement sorting algorithm for that table
+  implementSortingAlgorithm()
 }
 
+//DONE
 function changePlaceholder(){
 
   let selectedPlaceholder = document.getElementById("order-or-customer-id").value
@@ -392,4 +343,64 @@ function changePlaceholder(){
   } else{
     placeholderToChange.placeholder="Order Id"
   }
+}
+
+//DONE
+function sortTableByColumn(table, column, asc = true) {
+  const dirModifier = asc ? 1 : -1; // to toggle between ascending and descending
+  const tBody = table.tBodies[0];
+  const rows = Array.from(tBody.querySelectorAll("tr"));
+  let sortedRows;
+
+  // Sort each row based on if numbers or string
+  if(column == 1 || column == 3){
+    //string
+    sortedRows = rows.sort((a, b) => {
+      const aColText = a.querySelector(`td:nth-child(${ column + 1 })`).textContent.trim();
+      const bColText = b.querySelector(`td:nth-child(${ column + 1 })`).textContent.trim();
+
+      return aColText > bColText ? (1 * dirModifier) : (-1 * dirModifier);
+    });
+
+  } else {
+    // numbers
+    sortedRows = rows.sort(function(a,b) { 
+      const aColNum = parseFloat(a.querySelector(`td:nth-child(${ column + 1 })`).textContent.trim().replace('$', ''));
+      const bColNum = parseFloat(b.querySelector(`td:nth-child(${ column + 1 })`).textContent.trim().replace('$', ''));
+      
+      return aColNum > bColNum ? (1 * dirModifier) : (-1 * dirModifier);
+  })
+}
+  
+
+  // Remove all existing rows from the table
+  while (tBody.firstChild) {
+    tBody.removeChild(tBody.firstChild);
+  }
+
+  // Re-add the newly sorted rows
+  tBody.append(...sortedRows);
+
+  // Remember how the column is currently sorted
+  table.querySelectorAll("th").forEach(th => th.classList.remove("th-sort-asc", "th-sort-desc"));
+  table.querySelector(`th:nth-child(${ column + 1})`).classList.toggle("th-sort-asc", asc);
+  table.querySelector(`th:nth-child(${ column + 1})`).classList.toggle("th-sort-desc", !asc);
+
+  // style table rows to make readable
+  alternateRowColors("#f8f9fa","#e9ecef")
+}
+
+//DONE 
+//used to make table sortable when creating it in buildTableHead() function
+function implementSortingAlgorithm(){
+  
+  document.querySelectorAll(".table-sortable th").forEach(headerCell => {
+    headerCell.addEventListener("click", () => {
+        const tableElement = headerCell.parentElement.parentElement.parentElement;
+        const headerIndex = Array.prototype.indexOf.call(headerCell.parentElement.children, headerCell);
+        const currentIsAscending = headerCell.classList.contains("th-sort-asc");
+
+        sortTableByColumn(tableElement, headerIndex, !currentIsAscending);
+    });
+});
 }

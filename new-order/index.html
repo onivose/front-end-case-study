@@ -37,7 +37,7 @@
         <div class="actions-container" id="actions-container">
             <form class="actions" id="customer-id-input-form" onsubmit="beginNewOrder(event)">
                 <span class="action-form-title">Enter Customer Id:</span>
-                <input type="number" id="customer-id-input" class="action-inputs" placeholder="Customer Id" required > 
+                <input type="number" min="0" id="customer-id-input" class="action-inputs" placeholder="Customer Id" required > 
                 <button class="btn btn-sm btn-primary" type="submit" id="begin-new-order-btn">Begin New Order</button>
                 <button class="btn btn-sm btn-success" onclick="confirmSubmission()" type="reset" id="submit-order-btn">Submit Order</button>
             </form>
